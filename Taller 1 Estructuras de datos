@@ -1,0 +1,253 @@
+HIHI HI
+Welcome to my code :D for the first worko 
+
+Code language: C++
+Code comments: Spanish :)
+Maybe i will translate it, but meh :) 
+///////////////////////////////////////
+
+/*
+Fecha: 01/02/23
+Autor: Santiago Jaramillo Soto
+Tema: Primer ejercicio sobre Estructuras de Datos (EDA)
+
+Problema: Se tiene un GYM, el cual solicita hacer el registro de usuarios. La
+cantidad de registros deben ser indicados al principio. Los datos solicitados
+deberían ser exhaustivos. Finalmente, se debe presentar o imprimir los nombres
+de los usuarios con registro satisfactorio.
+
+Pistas de solución:
+--Datos a solicitar:
+-Nombre
+-Apellido
+-Edad
+-Genero
+-Fecha de inscripcion
+-Hijos
+-Masa Muscular
+-Plan
+-Franja Horaria
+-Lesiones
+-Altura
+--Para la captura de los datos se recomienda una estructura de datos.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+
+//Declaración de la estructura y sus variables que se van a utilizar.
+struct DatosUsuario{
+string Nombre;
+string Apellido;
+int Edad;
+char Genero;
+string Fecha_de_inscripcion;
+int Hijos;
+float Masa_Muscular;
+string Plan;
+string Franja_horaria;
+int Cantidad_lesiones;
+string Lesiones[100];
+float Altura;
+
+};
+void Direccion_Menu();
+/*
+Funcion: Direcciona el menu de la consola, contiene diversas funciones.
+Parametros: No requiere parametros, es la que inicializa todo el menu.
+Retorna: No retorna ningun valor.
+*/
+
+int MenuPrincipal(int estado);
+/*
+Funcion: Es la que muestra las opciones a escoger al usuario, es la interfaz. 
+Parametros: Solo requiere un estado para retornarlo y dirigir al usuario.
+Retorna: Retorna un entero. 
+*/
+int Llenar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Se encarga de preguntar y llenar los arreglos con la info suministrada del cliente.
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero.
+*/
+int Imprimir_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Se encarga de imprimir todos los usuarios previamente registrados.
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero. 
+*/
+int Buscar_Usuario(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Busca exactamente un usuario por el apellido. 
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero.
+*/
+
+
+int main()
+{
+//Declaración de las variables
+int Cantidad_usuarios;
+DatosUsuario Usuarios[100]; 
+//********Bienvenido a la app**********
+cout<<"************************************************"<<endl;
+cout<<"************Bienvenido al tu GYM****************"<<endl;
+cout<<"************************************************"<<endl;
+cout<<endl;
+//Se llama a la función que dirije todo la interfaz. 
+Direccion_Menu();
+return 0;
+}
+
+void Direccion_Menu(){ 
+DatosUsuario Usuarios[100];
+int Cantidad_usuarios;
+//Preguntar por la cantidad de usuarios al cliente.
+cout<<"Ingrese la cantidad de usuarios: ";
+cin>>Cantidad_usuarios;
+int estado = 1;
+//Se realiza un switch para poder tener diferentes opciones dentro del menu. 
+while(estado!=0){ 
+    switch(estado){
+    case 0:
+    cout<<"Salir del sistema"<<endl;
+    break;
+    case 1: //Menu Principal
+    estado = MenuPrincipal(estado);
+    system("CLS");
+    break;
+
+    case 2: //Direcciona al cliente a la opcion de agregar usuarios
+    estado = Llenar_Usuarios(Usuarios, Cantidad_usuarios);
+    system("CLS");
+    break;
+
+    case 3:
+    estado = Imprimir_Usuarios(Usuarios, Cantidad_usuarios);
+    break;
+
+    case 4:
+    estado = Buscar_Usuario(Usuarios, Cantidad_usuarios);
+    break;
+
+    }
+    //system("CLS");
+}
+}
+
+int MenuPrincipal(int estado){
+int Opc;
+cout<<"____________________MENU__PRINCIPAL___________"<<endl;
+//Mostrarle las opciones del menu al cliente.
+cout<<" 1.Ingresar usuarios \n 2.Imprimir usuarios \n 3.Buscar usuario. \n Ingrese la opcion deseada: ";
+cin>>Opc;
+switch(Opc){ //Se utiliza un switch para poder evaluar/tener en cuenta diferentes opciones
+case 1:
+   estado = 2;
+break;
+
+case 2:
+    estado = 3;
+break;
+
+case 3:
+    estado = 4;
+break;
+}
+return estado;
+}
+
+int Llenar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+int Cantidad_lesiones = 0;
+//Solicitar los datos al usuario
+for(int i = 0; i < Cantidad_usuarios; i++){
+cout<<"Ingrese el nombre del usuario: ";
+cin>>Usuarios[i].Nombre;
+cout<<"Ingrese el apellido del usuario: ";
+cin>>Usuarios[i].Apellido;
+cout<<"Ingrese la edad del usuario: ";
+cin>>Usuarios[i].Edad;
+cout<<"Ingrese el genero del usuario (M o F): ";
+cin>>Usuarios[i].Genero;
+cout<<"Ingrese la fecha de inscripción del usuario: ";
+cin>>Usuarios[i].Fecha_de_inscripcion;
+cout<<"Ingrese la cantidad de hijos del usuario: ";
+cin>>Usuarios[i].Hijos;
+cout<<"Ingrese la masa muscular del usuario: ";
+cin>>Usuarios[i].Masa_Muscular;
+cout<<"Ingrese el plan del usuario: ";
+cin>>Usuarios[i].Plan;
+cout<<"Ingrese la franja horaria del usuario: ";
+cin>>Usuarios[i].Franja_horaria;
+cout<<"Ingrese la cantidad de lesiones del usuario: ";
+cin>>Usuarios[i].Cantidad_lesiones;
+//Ver si el cliente tiene una o más lesiones
+if(Usuarios[i].Cantidad_lesiones!=0){
+    for(int j = 0; j<Usuarios[i].Cantidad_lesiones; j++){
+        cout<<"Ingrese el tipo de lesion: ";
+        cin>>Usuarios[i].Lesiones[j];
+    }
+}
+cout<<"Ingrese la altura del usuario: ";
+cin>>Usuarios[i].Altura;
+system("CLS");
+}
+return 1;
+}
+
+int Imprimir_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+for(int i = 0; i<Cantidad_usuarios; i++){ //Se hace un recorrido del arreglo para poder ser "impreso"/"mostrado en pantalla"
+cout<<"Nombre: "<<Usuarios[i].Nombre<<endl;
+cout<<"Apellido: "<<Usuarios[i].Apellido<<endl;
+cout<<"Edad: "<<Usuarios[i].Edad<<endl;
+cout<<"Genero: "<<Usuarios[i].Genero<<endl;
+cout<<"Fecha de inscripcion: "<<Usuarios[i].Fecha_de_inscripcion<<endl;
+cout<<"Cantidad de hijos: "<<Usuarios[i].Hijos<<endl;
+cout<<"Masa Muscular: "<<Usuarios[i].Masa_Muscular<<endl;
+cout<<"Plan: "<<Usuarios[i].Plan<<endl;
+cout<<"Franja horaria: "<<Usuarios[i].Franja_horaria<<endl;
+for(int j = 0; j<Usuarios[i].Cantidad_lesiones; j++){
+cout<<"Lesiones: "<<Usuarios[i].Lesiones[j]<<endl;
+}
+cout<<"Altura: "<<Usuarios[i].Altura<<endl;
+cout<<endl;
+}
+return 1;
+}
+
+int Buscar_Usuario(DatosUsuario Usuarios[], int Cantidad_usuarios){
+//Creación de variables auxiliares.
+int IndiceBuscar = -1; 
+string ApellidoBuscar;
+//Se le pregunta al cliente el apellido por el cual se debe buscar
+cout<<"Ingrese el apellido del usuario a buscar: ";
+cin>>ApellidoBuscar;
+for(int i = 0; i < Cantidad_usuarios; i++){
+if(Usuarios[i].Apellido.compare(ApellidoBuscar) == 0){ //Se hace una comparación de string usando .compare
+    IndiceBuscar = i;
+}else{
+    if(IndiceBuscar == -1){ //si no se llega a encontrar un usuario con ese apellido, imprime ese mensaje. 
+cout<<"No se ha encontrado usuario con ese apellido"<<endl;
+}
+}
+if(IndiceBuscar != -1){ //Se hace la comprobación de que se encontro a un usuario con ese apellido
+cout<<"Nombre: "<<Usuarios[IndiceBuscar].Nombre<<endl;
+cout<<"Apellido: "<<Usuarios[IndiceBuscar].Apellido<<endl;
+cout<<"Edad: "<<Usuarios[IndiceBuscar].Edad<<endl;
+cout<<"Genero: "<<Usuarios[IndiceBuscar].Genero<<endl;
+cout<<"Fecha de inscripcion: "<<Usuarios[IndiceBuscar].Fecha_de_inscripcion<<endl;
+cout<<"Cantidad de hijos: "<<Usuarios[IndiceBuscar].Hijos<<endl;
+cout<<"Masa Muscular: "<<Usuarios[IndiceBuscar].Masa_Muscular<<endl;
+cout<<"Plan: "<<Usuarios[IndiceBuscar].Plan<<endl;
+cout<<"Franja horaria: "<<Usuarios[IndiceBuscar].Franja_horaria<<endl;
+for(int j = 0; j<Usuarios[IndiceBuscar].Cantidad_lesiones; j++){
+cout<<"Lesiones: "<<Usuarios[IndiceBuscar].Lesiones[j]<<endl;
+}
+cout<<"Altura: "<<Usuarios[IndiceBuscar].Altura<<endl;
+}
+return 1;
+}
+
+}

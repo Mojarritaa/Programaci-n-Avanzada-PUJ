@@ -51,8 +51,9 @@ string Franja_horaria;
 int Cantidad_lesiones;
 string Lesiones[100];
 float Altura;
-
 };
+
+//Declaración de las funciones usadas:
 void Direccion_Menu();
 /*
 Funcion: Direcciona el menu de la consola, contiene diversas funciones.
@@ -100,7 +101,9 @@ cout<<endl;
 Direccion_Menu();
 return 0;
 }
+//Definicion de las funciones utilizadas: 
 
+//Crear una funcion que me permita direccionar al cliente a diversas opciones dentro del menu. 
 void Direccion_Menu(){ 
 DatosUsuario Usuarios[100];
 int Cantidad_usuarios;
@@ -137,7 +140,9 @@ while(estado!=0){
 }
 }
 
+//Crear un menu visible para el cliente y que pueda dirigirse a otras opciones desde el. 
 int MenuPrincipal(int estado){
+//Creacion de una variable auxiliar.
 int Opc;
 cout<<"____________________MENU__PRINCIPAL___________"<<endl;
 //Mostrarle las opciones del menu al cliente.
@@ -159,8 +164,8 @@ break;
 return estado;
 }
 
+//Crear una funcion que permite llenar todos los datos de un usuario o varios usuarios.
 int Llenar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
-int Cantidad_lesiones = 0;
 //Solicitar los datos al usuario
 for(int i = 0; i < Cantidad_usuarios; i++){
 cout<<"Ingrese el nombre del usuario: ";
@@ -197,8 +202,10 @@ system("CLS");
 return 1;
 }
 
+//Crear una funcion que permita imprimir todos datos de los usuarios registrados. 
 int Imprimir_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
-for(int i = 0; i<Cantidad_usuarios; i++){ //Se hace un recorrido del arreglo para poder ser "impreso"/"mostrado en pantalla"
+for(int i = 0; i<Cantidad_usuarios; i++){ 
+//Se hace un recorrido del arreglo para poder ser "impreso"/"mostrado en pantalla"
 cout<<"Nombre: "<<Usuarios[i].Nombre<<endl;
 cout<<"Apellido: "<<Usuarios[i].Apellido<<endl;
 cout<<"Edad: "<<Usuarios[i].Edad<<endl;
@@ -216,7 +223,7 @@ cout<<endl;
 }
 return 1;
 }
-
+//Se crea una funcion que permita al cliente buscar exactamente un solo usuario, utilizando su Apellido. 
 int Buscar_Usuario(DatosUsuario Usuarios[], int Cantidad_usuarios){
 //Creación de variables auxiliares.
 int IndiceBuscar = -1; 
@@ -232,7 +239,8 @@ if(Usuarios[i].Apellido.compare(ApellidoBuscar) == 0){ //Se hace una comparació
 cout<<"No se ha encontrado usuario con ese apellido"<<endl;
 }
 }
-if(IndiceBuscar != -1){ //Se hace la comprobación de que se encontro a un usuario con ese apellido
+//Se hace la comprobación de que se encontro a un usuario con ese apellido
+if(IndiceBuscar != -1){
 cout<<"Nombre: "<<Usuarios[IndiceBuscar].Nombre<<endl;
 cout<<"Apellido: "<<Usuarios[IndiceBuscar].Apellido<<endl;
 cout<<"Edad: "<<Usuarios[IndiceBuscar].Edad<<endl;

@@ -1,0 +1,326 @@
+//Acá se implementará el anterior código y va a tener una nueva opción  (incluso dos si todo sale bien) sobre archivos, es decir, guardar y leer los datos 
+//de los usuarios. 
+//Se pondrá el enunciado utilizado en clase (aunque no se va a usar, espero que me lo acepten :D)
+
+/*
+Fecha: 03/02/2023
+Autor: Santiago Jaramillo Soto
+Tema: Biblioteca "fstream" / Archivos
+Problema: Crear una aplicación que almacene solicite datos de usuarios, pasa posteriormente ser almacenados en un fichero. El almacenimiento de cada dato en una
+línea, no se permite que se almacenen más de una planara por línea, no espacios en blanco. 
+Solución:
+->Hacer uso de la biblioteca fstream
+->Se crea un DA para la colección de los datos
+->Se almacenan los datos del TDA en el fichero
+->Se bien los datos del fichero y se presentan por pantalla
+*/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Declaración de la estructura y sus variables que se van a utilizar.
+struct DatosUsuario{
+string Nombre;
+string Apellido;
+int Edad;
+char Genero;
+string Fecha_de_inscripcion;
+int Hijos;
+float Masa_Muscular;
+string Plan;
+string Franja_horaria;
+int Cantidad_lesiones;
+string Lesiones[100];
+float Altura;
+};
+
+//Declaración de las funciones usadas:
+void Direccion_Menu();
+/*
+Funcion: Direcciona el menu de la consola, contiene diversas funciones.
+Parametros: No requiere parametros, es la que inicializa todo el menu.
+Retorna: No retorna ningun valor.
+*/
+
+int MenuPrincipal(int estado);
+/*
+Funcion: Es la que muestra las opciones a escoger al usuario, es la interfaz. 
+Parametros: Solo requiere un estado para retornarlo y dirigir al usuario.
+Retorna: Retorna un entero. 
+*/
+int Llenar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Se encarga de preguntar y llenar los arreglos con la info suministrada del cliente.
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero.
+*/
+int Imprimir_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Se encarga de imprimir todos los usuarios previamente registrados.
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero. 
+*/
+int Buscar_Usuario(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Busca exactamente un usuario por el apellido. 
+Parametros: Requiere un arreglo de tipo DatosUsuarios y la cantidad de usuarios.
+Retorna: Un entero.
+*/
+int Guardar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Guarda los usuarios ingresados en el fichero. 
+Parametros: Requiere el arreglo de los usuarios y la cantidad de usuarios.
+Retorna: Un entero.
+*/
+int Historial_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios);
+/*
+Funcion: Muestra los usuarios guardados en el fichero.
+Parametros: Requiere el arreglo de los usuarios y la cantidad de usuarios.
+Retorna: Un entero. 
+*/
+
+int main()
+{
+//Declaración de las variables
+int Cantidad_usuarios;
+DatosUsuario Usuarios[100]; 
+//********Bienvenido a la app**********
+cout<<"************************************************"<<endl;
+cout<<"************Bienvenido al tu GYM****************"<<endl;
+cout<<"************************************************"<<endl;
+cout<<endl;
+//Se llama a la función que dirije todo la interfaz. 
+Direccion_Menu();
+return 0;
+}
+//Definicion de las funciones utilizadas: 
+
+//Crear una funcion que me permita direccionar al cliente a diversas opciones dentro del menu. 
+void Direccion_Menu(){ 
+DatosUsuario Usuarios[100];
+int Cantidad_usuarios;
+//Preguntar por la cantidad de usuarios al cliente.
+cout<<"Ingrese la cantidad de usuarios: ";
+cin>>Cantidad_usuarios;
+int estado = 1;
+//Se realiza un switch para poder tener diferentes opciones dentro del menu. 
+while(estado!=0){ 
+    switch(estado){
+    case 0:
+    cout<<"Salir del sistema"<<endl;
+    break;
+    case 1: //Menu Principal
+    estado = MenuPrincipal(estado);
+    system("CLS");
+    break;
+
+    case 2: //Direcciona al cliente a la opcion de agregar usuarios
+    estado = Llenar_Usuarios(Usuarios, Cantidad_usuarios);
+    system("CLS");
+    break;
+
+    case 3: //Direcciona al cliente a la opcion de imprimir los usuarios previamente ingresados
+    estado = Imprimir_Usuarios(Usuarios, Cantidad_usuarios);
+    break;
+
+    case 4: //Direcciona al cliente a la opcion de poder buscar un usuario por su apellido 
+    estado = Buscar_Usuario(Usuarios, Cantidad_usuarios);
+    break;
+    
+    case 5: //Direcciona al cliente a la opcion de guardar usuarios en un fichero. 
+    estado = Guardar_Usuarios(Usuarios, Cantidad_usuarios);
+    break;
+
+    case 6: //Direcciona al cliente a la opcion de poder visualizar los usuarios del fichero. 
+        estado = Historial_Usuarios(Usuarios, Cantidad_usuarios);
+    break;
+
+    }
+    //system("CLS");
+}
+}
+
+//Crear un menu visible para el cliente y que pueda dirigirse a otras opciones desde el. 
+int MenuPrincipal(int estado){
+//Creacion de una variable auxiliar.
+int Opc;
+cout<<"____________________MENU__PRINCIPAL___________"<<endl;
+//Mostrarle las opciones del menu al cliente.
+cout<<" 1.Ingresar usuarios \n 2.Imprimir usuarios \n 3.Buscar usuario. \n Ingrese la opcion deseada: ";
+cin>>Opc;
+switch(Opc){ //Se utiliza un switch para poder evaluar/tener en cuenta diferentes opciones y poder diregir al usuario.
+case 1:
+   estado = 2;
+break;
+
+case 2:
+    estado = 3;
+break;
+
+case 3:
+    estado = 4;
+break;
+
+case 4:
+    estado = 5;
+break;
+
+case 5:
+    estado = 6;
+break;
+
+default: //Si llegan a ingresar un valor incorrecto, los redirecciona al menu principal nuevamente. 
+    estado = 1;
+break;
+}
+return estado;
+}
+
+//Crear una funcion que permite llenar todos los datos de un usuario o varios usuarios.
+int Llenar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+//Solicitar los datos al usuario
+for(int i = 0; i < Cantidad_usuarios; i++){
+cout<<"Ingrese el nombre del usuario: ";
+cin>>Usuarios[i].Nombre;
+cout<<"Ingrese el apellido del usuario: ";
+cin>>Usuarios[i].Apellido;
+cout<<"Ingrese la edad del usuario: ";
+cin>>Usuarios[i].Edad;
+cout<<"Ingrese el genero del usuario (M o F): ";
+cin>>Usuarios[i].Genero;
+cout<<"Ingrese la fecha de inscripción del usuario: ";
+cin>>Usuarios[i].Fecha_de_inscripcion;
+cout<<"Ingrese la cantidad de hijos del usuario: ";
+cin>>Usuarios[i].Hijos;
+cout<<"Ingrese la masa muscular del usuario: ";
+cin>>Usuarios[i].Masa_Muscular;
+cout<<"Ingrese el plan del usuario: ";
+cin>>Usuarios[i].Plan;
+cout<<"Ingrese la franja horaria del usuario: ";
+cin>>Usuarios[i].Franja_horaria;
+cout<<"Ingrese la cantidad de lesiones del usuario: ";
+cin>>Usuarios[i].Cantidad_lesiones;
+//Ver si el cliente tiene una o más lesiones
+if(Usuarios[i].Cantidad_lesiones!=0){
+    for(int j = 0; j<Usuarios[i].Cantidad_lesiones; j++){
+        cout<<"Ingrese el tipo de lesion: ";
+        cin>>Usuarios[i].Lesiones[j];
+    }
+}
+cout<<"Ingrese la altura del usuario: ";
+cin>>Usuarios[i].Altura;
+system("CLS");
+}
+return 1;
+}
+
+//Crear una funcion que permita imprimir todos datos de los usuarios registrados. 
+int Imprimir_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+for(int i = 0; i<Cantidad_usuarios; i++){ 
+//Se hace un recorrido del arreglo para poder ser "impreso"/"mostrado en pantalla"
+cout<<"Nombre: "<<Usuarios[i].Nombre<<endl;
+cout<<"Apellido: "<<Usuarios[i].Apellido<<endl;
+cout<<"Edad: "<<Usuarios[i].Edad<<endl;
+cout<<"Genero: "<<Usuarios[i].Genero<<endl;
+cout<<"Fecha de inscripcion: "<<Usuarios[i].Fecha_de_inscripcion<<endl;
+cout<<"Cantidad de hijos: "<<Usuarios[i].Hijos<<endl;
+cout<<"Masa Muscular: "<<Usuarios[i].Masa_Muscular<<endl;
+cout<<"Plan: "<<Usuarios[i].Plan<<endl;
+cout<<"Franja horaria: "<<Usuarios[i].Franja_horaria<<endl;
+for(int j = 0; j<Usuarios[i].Cantidad_lesiones; j++){
+cout<<"Lesiones: "<<Usuarios[i].Lesiones[j]<<endl;
+}
+cout<<"Altura: "<<Usuarios[i].Altura<<endl;
+cout<<endl;
+}
+return 1;
+}
+//Se crea una funcion que permita al cliente buscar exactamente un solo usuario, utilizando su Apellido. 
+int Buscar_Usuario(DatosUsuario Usuarios[], int Cantidad_usuarios){
+//Creación de variables auxiliares.
+int IndiceBuscar = -1; 
+string ApellidoBuscar;
+//Se le pregunta al cliente el apellido por el cual se debe buscar
+cout<<"Ingrese el apellido del usuario a buscar: ";
+cin>>ApellidoBuscar;
+for(int i = 0; i < Cantidad_usuarios; i++){
+if(Usuarios[i].Apellido.compare(ApellidoBuscar) == 0){ //Se hace una comparación de string usando .compare
+    IndiceBuscar = i;
+}else{
+    if(IndiceBuscar == -1){ //si no se llega a encontrar un usuario con ese apellido, imprime ese mensaje. 
+cout<<"No se ha encontrado usuario con ese apellido"<<endl;
+}
+}
+//Se hace la comprobación de que se encontro a un usuario con ese apellido
+if(IndiceBuscar != -1){
+cout<<"Nombre: "<<Usuarios[IndiceBuscar].Nombre<<endl;
+cout<<"Apellido: "<<Usuarios[IndiceBuscar].Apellido<<endl;
+cout<<"Edad: "<<Usuarios[IndiceBuscar].Edad<<endl;
+cout<<"Genero: "<<Usuarios[IndiceBuscar].Genero<<endl;
+cout<<"Fecha de inscripcion: "<<Usuarios[IndiceBuscar].Fecha_de_inscripcion<<endl;
+cout<<"Cantidad de hijos: "<<Usuarios[IndiceBuscar].Hijos<<endl;
+cout<<"Masa Muscular: "<<Usuarios[IndiceBuscar].Masa_Muscular<<endl;
+cout<<"Plan: "<<Usuarios[IndiceBuscar].Plan<<endl;
+cout<<"Franja horaria: "<<Usuarios[IndiceBuscar].Franja_horaria<<endl;
+for(int j = 0; j<Usuarios[IndiceBuscar].Cantidad_lesiones; j++){
+cout<<"Lesiones: "<<Usuarios[IndiceBuscar].Lesiones[j]<<endl;
+}
+cout<<"Altura: "<<Usuarios[IndiceBuscar].Altura<<endl;
+}
+return 1;
+}
+
+}
+
+
+//Se define la funcion, encargada de guardar los usuarios en un archivo/fichero
+Guardar_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+//Se crean variables para el manejo del archivo (escribir en el archivo)
+ofstream Archivo("Usuarios.txt");
+//Se verifica que este abierto.
+if(Archivo.is_open()){
+    for(int i = 0; i<Cantidad_usuarios; i++){ //Se utiliza un for para poder ingresar los datos de cada usuario dentro de cada tipo de dato (nombre, apellido, etc)
+        Archivo<<"Usuario: "<<i+1<<"\n"; //Se ingresa el numero de usuario y sus datos correspondientes. 
+        Archivo<<"Nombre: "<<Usuarios[i].Nombre<<"\n";
+        Archivo<<"Apellido: "<<Usuarios[i].Apellido<<"\n";
+        Archivo<<"Edad: "<<Usuarios[i].Edad<<"\n";
+        Archivo<<"Genero: "<<Usuarios[i].Genero<<"\n";
+        Archivo<<"Fecha de inscripcion: "<<Usuarios[i].Fecha_de_inscripcion<<"\n";
+        Archivo<<"Cantidad de hijos: "<<Usuarios[i].Hijos<<"\n";
+        Archivo<<"Masa Muscular: "<<Usuarios[i].Masa_Muscular<<"\n";
+        Archivo<<"Plan: "<<Usuarios[i].Plan<<"\n";
+        Archivo<<"Franja horaria: "<<Usuarios[i].Franja_horaria<<"\n";
+            for(int j = 0; j<Usuarios[i].Cantidad_lesiones; j++){
+                Archivo<<"Lesiones: "<<Usuarios[i].Lesiones[j]<<"\n";
+                }
+        Archivo<<"Altura: "<<Usuarios[i].Altura<<"\n";
+        Archivo<<"\n";
+        }
+    Archivo.close(); //Se cierra el archivo.
+    cout<<"Se guardaron correctamente!"<<endl; //Se le indica al usuario que los usuarios se pudieron guardar. 
+    }
+return 1; //Retorna este valor para poder regresar al menu principal. 
+}
+
+//Crear una funcion encargada de mostrar los usuarios guardados en el fichero/archivo
+int Historial_Usuarios(DatosUsuario Usuarios[], int Cantidad_usuarios){
+//Definir variables para el manejo del archivo (leer archivos)
+ifstream Larchivo("Usuarios.txt");
+string linea; //Se crea esta variable para poder leer las lineas del archivo
+//Verificar que el archivo este abierto
+if(Larchivo.is_open()){
+        cout<<"------------Historial------------"<<endl;
+    while(getline(Larchivo, linea)){ //Funcion que permite "Extraer" las lineas/texto que están dentro del archivo 
+        cout<<linea<<endl; //Mostrar en la consola las líneas extraídas del código
+    }
+    //Cerrar el archivo
+    Larchivo.close();
+}
+else{
+  //Si el archivo no se pudo abrir, indicar al cliente que no se pudo abrir
+    cout<<"No se pudo acceder al archivo"<<endl;
+}
+return 1; //Retorna este valor para poder devolverse al menu principal. 
+}

@@ -1,4 +1,5 @@
-# Programaci-n-Avanzada-PUJ
-Trabajos y talleres de la clase :D :D :D :D :D :D :D :D :D :D 
-Este es un espacio para subir trabajos y talleres de una clase.
-y ya :D
+# Programacion Avanzada PUJ
+Buenos días/Buenas tardes, yo soy Santiago Jaramillo Soto
+Acá encontrarás los talleres trabajados durante todo el semestre y mucho más. 
+Espero que sea de gran ayuda :D
+

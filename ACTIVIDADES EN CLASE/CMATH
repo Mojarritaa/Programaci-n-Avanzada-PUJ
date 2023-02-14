@@ -1,0 +1,46 @@
+/*
+AUTOR: Santiago Jaramillo Soto
+FECHA: 14/02/2023
+TEMA: Biblioteca cmath, aprender y saber usar CMATH
+*/
+
+#include <iostream>
+//Incluir la biblioteca cmath para poder usar.
+#include <cmath>
+using namespace std;
+
+int main()
+{
+//Se declaran variables
+double X = 4.0, Y = 12.25, Z = 0.0000000043, Min, Max,i;
+//Se crea un mensaje de bienvenida al usuario
+cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
+cout<<"^^^^^^^^^^^^^^^^^RAIZ CUADRADA^^^^^^^^^^^^^^^^"<<endl;
+cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
+
+//Se muestran las raices de los numeros
+
+cout<<"Raiz de "<<X<<" es igual a: "<<sqrt(X)<<endl;
+cout<<"Raiz de "<<Y<<" es igual a: "<<sqrt(Y)<<endl;
+cout<<"Raiz de "<<Z<<" es igual a: "<<sqrt(Z)<<endl;
+
+//Pedirle al usuario un valor para poder sacarle la raiz cuadrada
+
+cout<<"Insertar un valor para sacarle raiz cuadrada: ";
+cin>>X;
+cout<<"Resultado: "<<sqrt(X)<<endl;
+
+//Crear un ciclo para sacar las raices de todos los numeros dentro de un rango
+//Se le pide el rango al usuario
+
+cout<<"Ingrese un valor minimo: ";
+cin>>Min;
+cout<<"Ingrese un valor maximo: ";
+cin>>Max;
+for(i = Min; i < Max; i++){
+    cout<<"Raiz cuadrada de "<<i<<" = "<<sqrt(i)<<endl;
+}
+//Se retorna un entero
+
+return 0;
+}

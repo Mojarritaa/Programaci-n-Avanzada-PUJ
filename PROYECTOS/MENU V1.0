@@ -1,0 +1,58 @@
+#include <iostream>
+
+using namespace std;
+void Direccion_Menu();
+int MenuPrincipal(int estado);
+int main()
+{
+Direccion_Menu();
+}
+void Direccion_Menu(){
+string NombreUsuario;
+int clave;
+int estado = 1;
+cout<<"_________________________________________________"<<endl;
+cout<<"--------BIENVENIDO A ^NOMBRE DE EMPRESA^--------"<<endl;
+cout<<"------------------------------------------------"<<endl;
+cout<<endl;
+cout<<"Por favor, ingrese nombre de usuario: ";
+cin>>NombreUsuario;
+cout<<"A continuacion ingrese su clave: \nRecuerde que la clave es 586708"<<endl;
+cin>>clave;
+if(clave == 586708){
+  system("CLS");
+while(estado!=0){
+    switch(estado){
+    case 0:
+    cout<<"Salir del sistema"<<endl;
+    break;
+    case 1: //Menu Principal
+    estado = MenuPrincipal(estado);
+    system("CLS");
+    break;
+    }
+    //system("CLS");
+}
+}
+else
+    {
+    if(clave != 586708){
+        cout<<"Contraseña incorrecta, reinicie el programa!"<<endl;
+    }
+    }
+}
+
+int MenuPrincipal(int estado){
+int Opc;
+cout<<"______________________________________________"<<endl;
+cout<<"________________MENU__PRINCIPAL_______________"<<endl;
+cout<<"----------------------------------------------"<<endl;
+cout<<" 1. Ingresar empleados \n 2. Imprimir empleados \n 3. Buscar empleado \n 4. Guardar empleados \n Ingrese la opcion deseada: ";
+cin>>Opc;
+switch(Opc){
+default:
+    estado = 1;
+break;
+}
+return estado;
+}

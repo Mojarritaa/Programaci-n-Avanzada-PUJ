@@ -1,0 +1,59 @@
+/*
+AUTOR: Santiago Jaramillo Soto
+FECHA: 10/02/2023
+TEMA: Vectores y librería vector. 
+*/
+//Esta es la primera version del código, lo ideal sería poner ejemplos de la funcion
+//de cada una de las funciones de la libreria vector
+
+#include <iostream>
+
+//Incluir la biblioteca vector
+#include <vector>
+
+using namespace std;
+
+
+int main()
+{
+//Declarar la variable de tipo vector
+vector <int> Vect;
+
+//Declarar la variable auxiliares
+int i;
+
+//Llenar el arreglo
+Vect.assign(5,2);
+
+//Imprimir los valores del vector
+for(i=0 ; i<Vect.size() ; i++){
+    cout<<"-> "<<Vect.at(i)<<endl;
+}
+//Modificar el primer valor del vector
+Vect.insert(Vect.begin(),5);
+
+//Imprimir de nuevo el vector con el cambio
+cout<<endl;
+cout<<"Vector modificado 1"<<endl;
+for(i=0 ; i<Vect.size() ; i++){
+    cout<<"-> "<<Vect.at(i)<<endl;
+}
+
+//Modificar el ultimo valor del vector
+Vect.insert(Vect.end(),99);
+
+//Imprimir de nuevo el vector.
+cout<<endl;
+cout<<"Vector modificado 2"<<endl;
+for(i=0 ; i<Vect.size() ; i++){
+    cout<<"-> "<<Vect.at(i)<<endl;
+}
+
+//Borrar los datos del vector.
+Vect.clear();
+cout<<endl;
+cout<<"Vector modificado 3"<<endl;
+for(i=0 ; i<Vect.size() ; i++){
+    cout<<"-> "<<Vect.at(i)<<endl;
+}
+}

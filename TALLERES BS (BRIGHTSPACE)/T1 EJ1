@@ -1,0 +1,64 @@
+/*
+Autor: Santiago Jaramillo Soto
+Fecha: 18/02/2023
+Tema: Punteros y numeros aleatorios
+*/
+
+#include <iostream>
+//Incluir bibliotecas necesarias
+#include <time.h>
+#include <stdlib.h>
+
+using namespace std;
+//Declaracion de funciones
+void LLenararreglo(int arreglo[]);
+/*
+Funcion: LLena un arreglo con numeros aleatorios
+Param: Necesita el arreglo, de tamano 10.
+Retorna: Nada
+*/
+
+void Imprimir_arreglo( int *pointer);
+/*
+Fucnion: Imprime un arreglo desde un apuntador.
+Param: Un apuntador, previamente apuntado al arreglo.
+Retorna: Nada
+*/
+
+int main()
+{
+srand(time(NULL));
+    //Crear arreglo con 10 elementos
+int Nums[10];
+//Llamar la funcion para llenar el arreglo
+LLenararreglo(Nums);
+//Definir el puntero, apuntando al arreglo
+int *Puntero = Nums;
+//Imprimir el valor de los arreglos usando el puntero
+Imprimir_arreglo(Puntero);
+}
+
+void LLenararreglo(int arreglo[]){
+    //crear variables auxiliares
+    int i;
+for(i = 0; i<10; i++){
+        //Llenar el arreglo
+    arreglo[i]= 0+rand()%25;
+}
+for(i = 0; i<10; i++){
+    //Imprimir los valores del arreglo para poder compararlos.
+    cout<<"Posicion "<<"["<<i<<"]: "<<arreglo[i]<<endl;
+    cout<<"Su Direccion: "<<&arreglo[i]<<endl;
+    cout<<endl;
+}
+}
+
+void Imprimir_arreglo(int *pointer){
+    //Crear variables auxiliares
+    int i;
+for(i=0; i<10; i++){
+        //Imprimir las direcciones y los valores con el puntero
+cout<<"Valor de la posicion "<<i<<" : "<<pointer[i]<<endl;
+cout<<"Direccion de la posicion"<<i<<" : "<<pointer+i<<endl;
+}
+}

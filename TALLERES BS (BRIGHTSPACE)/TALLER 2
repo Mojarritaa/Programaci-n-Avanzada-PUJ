@@ -1,0 +1,181 @@
+/*
+Autor: Santiago Jaramillo Soto
+Fecha: 21/02/203
+Trabajo: Taller 2
+*/
+
+#include <iostream>
+//Incluir las bibliotecas necesarias
+#include <vector>
+#include <time.h>
+#include <stdlib.h>
+using namespace std;
+
+//Crear estructura necesaria para guardar los datos y manejarlos con seguridad
+
+struct vcts{
+int tamano;
+vector <int> Nums;
+};
+//Crear variable global
+vcts aleo;
+
+//Declaracion de funciones
+void Menu();
+/*
+Funcion: Se encarga de dirigir todo el menu, es el "mecanismo"
+Param: Nada, es la que inicializa todo.
+Return: NADA
+*/
+int DireccionMenu(int Aux);
+/*
+Funcion: Se encarga de imprimir las opciones del menu.
+Param: Requiere un entero, la opción a donde se va a dirigir.
+Return: Un entero para dirigir al usuario.
+*/
+int NumAleatorios();
+/*
+Funcion: Se encarga de asignar los numeros aleatorios
+Param: No requiere nada.
+Return:  un entero para devolver al usuario al menu principal.
+*/
+int Histograma();
+/*
+Funcion: Se encarga de mostrar los resultados en un histograma.
+Param: No requiere nada.
+Return:  un entero para devolver al usuario al menu principal.
+*/
+int main()
+{
+//Hacer que los numeros aleatorios, siempre sean distintos.
+srand(time(NULL));
+//Llamar a la funcion principal
+Menu();
+//Devolver el entero
+return 0;
+}
+
+//Definicion de funciones.
+//Funcion principal
+void Menu(){
+int Aux = 1;
+//Dependiendo del entero que se le de va a llevar al usuario a una u otra opcion
+while (Aux != 0){
+    switch(Aux){
+     case 1:
+      Aux = DireccionMenu(Aux); //Llama la funcion DireccionMenu
+      break;
+
+      case 2:
+      Aux = NumAleatorios(); //Llama la funcion NumAleatorios
+      break;
+
+      case 3:
+      Aux = Histograma(); //Llama la funcion Histograma
+      break;
+
+      //En caso que la opcion sea invalida, se devuelve 0, para terminar el proceso
+      default:
+      Aux = 0;
+      break;
+    }
+}
+}
+
+int DireccionMenu (int Aux){
+    //Imprimir la portada del menu
+cout<<"________________"<<endl;
+cout<<"______MENU PRINCIPAL____"<<endl;
+cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl;
+cout<<endl;
+//Mostrarle al usuario las opciones a escoger
+cout<<"Elija una de las opciones \n 1. Generar vector con numeros numeros aleatorios \n 2. Histograma \n 3. Salir \n";
+cin>>Aux;
+//Dependiendo de su elección, le dirije a uno o a otro, se utiliza un switch
+switch(Aux){
+    //Devuelve un dos, para que le direccione a la funcion de NUMSALEATORIOS
+case 1:
+Aux = 2;
+break;
+
+case 2:
+Aux = 3; //Devuelve un 3, le direcciona a la funcion Histograma
+break;
+
+case 3:
+Aux = 0; //Para poder terminar el programa
+break;
+
+default:
+Aux = 1; //Si no ingresa una opcion valida, le devuelve al menu principal
+break;
+}
+return Aux; //Devuelve la variable, para poder seguir con el menu
+}
+
+
+
+int NumAleatorios(){
+    //Crear variables auxiliares
+int min, max, i;
+//Se le pide al usuario ingresar los valores
+cout<<"Ingrese el tamano del vector: ";
+cin>> aleo.tamano;
+cout<<"Ingrese el valor minimo que puede tomar: ";
+cin>> min;
+cout<<"Ingrese el valor maximo que puede tomar: ";
+cin>> max;
+//Se insertan los valores aleatorios en el vector
+for(i=0; i< aleo.tamano; i++)
+{
+    aleo.Nums.push_back(min+rand()%max);
+    //Se ponen los limites inferiores y superiores para asignar los valores aleatorios
+}
+cout<<"Vector Obtenido: "<<endl;
+//Imprimir el vector resultante.
+for(i = 0; i<aleo.Nums.size(); i++){
+    cout<<aleo.Nums.at(i)<<endl;
+}
+cout<<"Size: "<<aleo.Nums.size()<<endl;
+cout<<"tamano: "<<aleo.tamano<<endl;
+return 1; //Se retorna 1, para devolver al usuario al menu principal
+}
+
+
+int Histograma(){
+//Crear variables auxiliares
+    int i, j, k, cont;
+//Imprimir el titulo
+cout<<"_HISTOGRAMA__"<<endl;
+cout<<"Indice: "<<"         "<<"Valor: "<<"         "<<"Histograma: "<<endl;
+//Crear un ciclo para poder evaluar cada valor.
+for(i=0; i<aleo.Nums.size(); i++){//Se usa el tamaño del vector
+    if(i == 0){ //Dado que el primer valor no se va a comparar con nada, se establece como una excepcion
+    cout<<"     "<<i<<"           "<<aleo.Nums.at(i)<<"               "; //Imprimir el indice y el valor
+    for(j = 0; j < aleo.Nums.size(); j++){
+        if(aleo.Nums.at(j) == aleo.Nums.at(i)){ //Cada vez que se repite, imprime un *
+            cout<<"* ";
+        }
+    }
+    cout<<endl;
+    }
+    else{ //Evaluar si el número se repite y evitar que se imprima nuevamente en el histograma
+        for(k = i-1; k < aleo.Nums.size(); k--){
+            if(aleo.Nums.at(k) == aleo.Nums.at(i)){
+                cont++; //Se usa un contador para ver si se repite o no
+            }
+        }
+        if(cont == 0){ //Si no se repite, se imprime el primer indice y las veces que se repitió
+ cout<<"     "<<i<<"           "<<aleo.Nums.at(i)<<"               ";
+    for(j = 0; j < aleo.Nums.size(); j++){
+        if(aleo.Nums.at(j) == aleo.Nums.at(i)){ //Comparación entre terminos para poder mostrarlo en pantalla
+            cout<<"* ";
+        }
+    }
+    cout<<endl;
+        }
+    }
+cont = 0; //Se actualiza en valor del contador, para que se vuelva a examinar con el otro valor
+}
+return 1; //Devuelve uno para dirigirlo al menu principal
+}

@@ -1,0 +1,109 @@
+/*
+Autor: Santiago Jaramillo Soto
+Fecha: 18/02/2023
+Tema: Apuntadores
+*/
+#include <iostream>
+//Incluir bibliotecas necesarias
+#include <fstream>
+
+using namespace std;
+
+//Crear una estructura de datos, enfocada al cliente
+//Contiene, número de clientes, nombre, apellido, celular y el costo de la factura
+
+struct Clientes{
+int Numero_clientes;
+string Nombre_clientes[100];
+string Apellido_clientes[100];
+int Celular_clientes[100];
+int Costo_factura;
+};
+
+//Se definen punteros globales, tenemos dificultades a la hora de pasar variables entre funciones :((
+Clientes cliente;
+int* punteroTAM;
+string* punteroNOM;
+string* punteroAPE;
+int* punteroCEL;
+int* punteroCOS;
+//Se crea una función que pide datos de los clientes y los registra en un archivo de texto. 
+
+void LLenar_Datos_TXT(Clientes cliente, int tamano);
+/*
+Funcion: Llena los datos de los clientes y los guarda en un archivo.txt
+Param: Necesita un tipo de dato cliente y un tamaño
+Retorna: Nada
+*/
+
+int main()
+{
+//Definir los valores de los apuntadores
+//En este caso se le dan las direcciones usando &, cuando son solo un valor
+punteroTAM = &cliente.Numero_clientes;
+punteroNOM = cliente.Nombre_clientes;
+punteroAPE = cliente.Apellido_clientes;
+punteroCEL = cliente.Celular_clientes;
+punteroCOS = &cliente.Costo_factura;
+//Se le pide al usuario ingresar la cantidad de usuarios
+cout<<"Ingrese la cantidad de clientes para la factura: ";
+cin>>cliente.Numero_clientes;
+LLenar_Datos_TXT(cliente, *punteroTAM); //Utilizando el apuntador se muestra el valor del tamaño/numero de usuarios. 
+}
+
+void LLenar_Datos_TXT(Clientes cliente, int tamano){
+//Declarar variables auxiliares
+int i;
+//Se le definen las direcciones nuevamente a las variables, igual que previamente. (No se sabe como pasar datos entre funciones utilizando punteros :( )
+punteroTAM = &cliente.Numero_clientes;
+punteroNOM = cliente.Nombre_clientes;
+punteroAPE = cliente.Apellido_clientes;
+punteroCEL = cliente.Celular_clientes;
+punteroCOS = &cliente.Costo_factura;
+//Crear un bucle/ciclo para llenar los datos de cada uno de los usuarios, utilizando punteros. 
+for(i=0; i<tamano; i++){
+ cout<<"Ingrese el nombre del usuario "<<i<<": ";
+ cin >> punteroNOM[i]; //Dado que son puntero de arreglos, se debe indicar en qué posición
+ cout <<"Ingrese el apellido del usuario "<<i<<": ";
+ cin >> punteroAPE[i]; //Dado que son puntero de arreglos, se debe indicar en qué posición
+ cout <<"Ingrese el celular del usuario "<<i<<": ";
+ cin >> punteroCEL[i]; //Dado que son puntero de arreglos, se debe indicar en qué posición
+ cout << "Ingrese el costo de la factura: ";
+ cin >> punteroCOS[i]; //Dado que son puntero de arreglos, se debe indicar en qué posición
+}
+//Indicarle al cliente que se han registrado correctamente
+
+cout << "Usuario correctamente registrado!!!"<<endl; 
+cout<<endl;
+
+
+//Imprimir en la pantalla los datos registrados
+
+cout <<"Imprimir datos previamente ingresados"<<endl;
+for(i=0; i<tamano; i++){
+//Dado que son puntero de arreglos, se debe indicar en qué posición
+ cout<<"Nombre: "<<punteroNOM[i]<<endl;
+ cout<<"Apellido: "<<punteroAPE[i]<<endl;
+ cout<<"Celular: "<<punteroCEL[i]<<endl;
+ cout<<"Costo factura: "<<punteroCOS[i]<<endl;
+ cout<<endl;
+}
+//Se declaran variables para poder editar el archivo
+fstream Archivo;
+Archivo.open("Cliente.txt", ios::out); //Se abre el archivo y se indica que es de escritura sin sobreescribir (borrar los datos siempre)
+if(Archivo.is_open()){ //Comprobar que el archivo está abierto
+for(i=0; i<tamano; i++){
+//Ingresar cada uno de los datos dentro del archivo
+ Archivo<<"Nombre: "<<punteroNOM[i]<<endl; 
+ Archivo<<"Apellido: "<<punteroAPE[i]<<endl;
+ Archivo<<"Celular: "<<punteroCEL[i]<<endl;
+ Archivo<<"Costo factura: "<<punteroCOS[i]<<endl;
+ Archivo<<endl;
+}
+//Cerrar el archivo
+Archivo.close();
+}
+
+}
+
+

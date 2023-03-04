@@ -1,0 +1,231 @@
+/*
+Estas versiones no estarán comentadas hasta la última por lo que se hacen cambios constantes
+
+*/
+
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+struct Empleado{
+int codigo;
+char nombre [50];
+char apellidos [50];
+int celular;
+};
+
+Empleado empleados;
+
+void Direccion_Menu(vector <Empleado> v_emp);
+int MenuPrincipal(int estado,vector <Empleado> v_emp);
+int RegistroEmpleados( int estado,vector <Empleado> v_emp);
+int AgregarEmpleados (int estado, vector <Empleado> v_emp);
+int MostrarEmpleados (int estado, vector <Empleado> v_emp);
+int CambiarCel (int estado);
+int DespedirEmpleado (int estado);
+
+int main()
+{
+vector <Empleado> v_emp;
+Direccion_Menu(v_emp);
+return 0;
+}
+void Direccion_Menu(vector <Empleado> v_emp){
+string NombreUsuario;
+int clave;
+int estado = 1;
+cout<<"________________________________________________"<<endl;
+cout<<"---------BIENVENIDO A MINOSAURIOS TECH----------"<<endl;
+cout<<"------------------------------------------------"<<endl;
+cout<<endl;
+cout<<"Por favor, ingrese nombre de usuario: ";
+cin>>NombreUsuario;
+cout<<"A continuacion ingrese su clave: \nRecuerde que la clave es 1"<<endl;
+cin>>clave;
+if(clave == 1){
+  system("CLS");
+while(estado!=0){
+    switch(estado){
+
+    case 0:
+    cout<<"Salir del sistema"<<endl;
+    break;
+
+    case 1: //Menu Principal
+    estado = MenuPrincipal(estado, v_emp);
+    system("CLS");
+    break;
+
+    case 2:
+    estado = RegistroEmpleados(estado, v_emp);
+    break;
+
+    case 3:
+    estado = AgregarEmpleados(estado, v_emp);
+    break;
+
+    case 4:
+    estado = MostrarEmpleados(estado, v_emp);
+    break;
+
+    case 5:
+    estado = CambiarCel(estado);
+    break;
+
+    case 6:
+    estado: DespedirEmpleado(estado);
+    break;
+
+    }
+    //system("CLS");
+}
+}
+else
+    {
+    if(clave != 586708){
+        cout<<"Contraseña incorrecta, reinicie el programa!"<<endl;
+    }
+    }
+}
+
+int MenuPrincipal(int estado, vector <Empleado> v_emp){
+int Opc;
+cout<<"______________________________________________"<<endl;
+cout<<"________________MENU PRINCIPAL________________"<<endl;
+cout<<"----------------------------------------------"<<endl;
+cout<<" 1. Registrar empleados \n 2. Agregar empleados \n 3. Mostrar empleados \n 4. Cambiar numero celular de empleados \n 5. Despedir empleados \n Ingrese la opcion deseada: ";
+cin>>Opc;
+switch(Opc){
+case 1:
+estado = 2;
+break;
+
+case 2:
+estado= 3;
+break;
+
+case 3:
+estado = 4;
+break;
+
+case 4:
+estado = 5;
+break;
+
+case 5:
+estado = 6;
+break;
+
+default:
+    estado = 1;
+break;
+}
+return estado;
+}
+
+
+
+int RegistroEmpleados( int estado, vector <Empleado> v_emp){
+//Declaración de variables auxiliares
+int tam,i;
+fstream Archivo;
+Archivo.open("Empleados.dat",ios::out | ios::binary);
+if(Archivo.is_open()){
+cout<<"Ingrese la cantidad de empleados a ingresar: ";
+cin>>tam;
+Empleado empAUX[100];
+for(i = 0; i<tam;i++){
+cout<<"Ingrese el ID del empleado: ";
+cin>>empAUX[i].codigo;
+cout<<"Ingrese el nombre del empleado: ";
+cin>>empAUX[i].nombre;
+cout<<"Ingrese el apellido del empleado: ";
+cin>>empAUX[i].apellidos;
+cout<<"Ingrese el celular del empleado: ";
+cin>>empAUX[i].celular;
+Archivo.write((char*)&empAUX[i], sizeof(Empleado));
+cout<<endl;
+}
+Archivo.close();
+system("CLS");
+cout<<"Usuarios correctamente registrados"<<endl;
+}
+else{
+	cout<<"No se pudo abrir el archivo";
+}
+
+return 1;
+}
+
+
+int AgregarEmpleados (int estado, vector <Empleado> v_emp){
+//Declaracion de variables auxiliares
+Empleado empleAux;
+int tam;
+fstream Archivo;
+Archivo.open("Empleados.dat", ios::out|ios::binary|ios::app);
+if(Archivo.is_open()){
+cout<<"Ingrese el ID del empleado: ";
+cin>> empleAux.codigo;
+cout<<"Ingrese el nombre del empleado: ";
+cin>>empleAux.nombre;
+cout<<"Ingrese el apellido del empleado: ";
+cin>>empleAux.apellidos;
+cout<<"Ingrese el celular del empleado: ";
+cin>>empleAux.celular;
+Archivo.write((char*)&empleAux, sizeof(Empleado));
+
+Archivo.close();
+
+system("CLS");
+
+cout<<"Usuario correctamente registrado"<<endl;
+}
+else{
+	cout<<"No se pudo abrir el archivo";
+}
+
+return 1;
+}
+
+
+int MostrarEmpleados (int estado, vector <Empleado> v_emp){
+	fstream Archivo;
+	Empleado EmpAux;
+	int j;
+Archivo.open("Empleados.dat", ios::in|ios::binary);
+if(Archivo.is_open()){
+int i = 0;
+while(!Archivo.eof()){
+Archivo.seekg(i*sizeof(Empleado), ios::beg);
+Archivo.read((char*)&EmpAux, sizeof(Empleado));
+   cout<<"Codigo: "<<EmpAux.codigo<<endl;
+   cout<<"Nombre: "<< EmpAux.nombre<<endl;
+   cout<<"Apellido: "<< EmpAux.apellidos<<endl;
+   cout<<"Celular: "<< EmpAux.celular<<endl;
+   cout<<endl;
+   i++;
+}
+Archivo.close();
+return 1;
+
+}
+}
+
+
+
+int CambiarCel (int estado){
+/*fstream Archivo;
+int CodAux:
+cout<<"Ingrese el código del usuario para cambiar su celular: ";
+cin>>CodAux;
+Archivo.open("Empleados.dat", ios::in|ios::binary);
+while(!Archivo){
+	Archivo.read((char*))
+}
+*/
+}
+int DespedirEmpleado (int estado){
+}

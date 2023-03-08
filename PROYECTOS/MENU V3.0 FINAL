@@ -1,0 +1,462 @@
+#include <iostream>
+//Incluir librerias necesarias
+#include <vector> //Creación y utlización de vectores
+#include <fstream> //Creación y utilización de Archivos
+#include <stdio.h> //Libreria estandard
+#include <string.h> //Utilizar strings, pegar entre otras cosas.
+using namespace std;
+
+//Creación de la estructura con los datos del empleado.
+struct Empleado{
+int codigo;
+char nombre [50];
+char apellidos [50];
+int celular;
+};
+
+
+void Direccion_Menu();
+/*
+Funcion: Se encarga de direccionar el usuario a las diferentes opciones
+Param: No requiere, es la que inicia el programa
+Retorna: ND
+*/
+int MenuPrincipal(int estado, string usuario);
+/*
+Funcion: Mostrarle al usuario que opciones puede elegir.
+Param: Un entero y un string
+Retorna: Un entero
+*/
+int RegistroEmpleados( int estado);
+/*
+Funcion: Permite ingresar los empleados por primera vez (Se borran los empleados anteriormente agregados)
+Param: Un entero
+Retorna: Un entero
+*/
+int AgregarEmpleados (int estado);
+/*
+Funcion: Permite agregar empleados al archivo, no borra nada.
+Param: Un entero
+Retorna: Un entero
+*/
+int MostrarEmpleados (int estado);
+/*
+Funcion: Imprime los empleados previamente guardados
+Param: Un entero
+Retorna: Un entero
+*/
+int CambiarCel (int estado);
+/*
+Funcion: Permite cambiar el numero celular de un empleado guardado
+Param: Un entero
+Retorna: Un entero
+*/
+int DespedirEmpleado (int estado);
+/*
+Funcion: Borra un empleado del archivo.
+Param: Un entero
+Retorna: Un entero
+*/
+int MostrarDespedidos (int estado);
+/*
+Funcion: Imprime los usuarios que han sido despedidos.
+Param: Un entero
+Retorna: Un entero
+*/
+
+//Declaración del main
+int main()
+{
+//Llamar a la funcion que dirije las otras funciones
+Direccion_Menu();
+//Retornar el entero
+return 0;
+}
+//Declaracion de funciones
+void Direccion_Menu(){
+    //Declarar variables auxiliares
+string NombreUsuario;
+int clave;
+int estado = 1; //Igualar el estado a 1 para llamar a la primera funcion
+//Imprimir la bienvenida
+cout<<"________________________________________________"<<endl;
+cout<<"---------BIENVENIDO A MINOSAURIOS TECH----------"<<endl;
+cout<<"------------------------------------------------"<<endl;
+cout<<endl;
+//Pedirle al usuario su nombre
+cout<<"Por favor, ingrese nombre de usuario: ";
+cin>>NombreUsuario;
+//Pedirle la clave
+cout<<"A continuacion ingrese su clave: \n Recuerde que la clave es 1"<<endl;
+cin>>clave;
+if(clave == 1){
+  system("CLS");
+  //Crear un bucle para que siempre pueda estar en funcionamiento
+while(estado!=0){
+        //Crear un switch para cada funcion y así poder acceder a ellas
+    switch(estado){
+
+    case 0:
+    cout<<"Salir del sistema"<<endl;
+    break;
+
+    case 1: //Menu Principal
+    estado = MenuPrincipal(estado, NombreUsuario);
+    system("CLS");
+    break;
+
+    case 2:
+    estado = RegistroEmpleados(estado);
+    break;
+
+    case 3:
+    estado = AgregarEmpleados(estado);
+    break;
+
+    case 4:
+    estado = MostrarEmpleados(estado);
+    break;
+
+    case 5:
+    estado = CambiarCel(estado);
+    break;
+
+    case 6:
+    estado = DespedirEmpleado(estado);
+    break;
+
+    case 7:
+    estado = MostrarDespedidos(estado);
+
+    }
+}
+}
+else
+    { //Si la clave no es correcta
+    if(clave != 1){
+        cout<<"Contraseña incorrecta, reinicie el programa!"<<endl;
+    }
+    }
+}
+
+int MenuPrincipal(int estado, string usuario){
+//Declarar variables auxiliares
+int Opc;
+//Imprimir el menu principal
+cout<<"______________________________________________"<<endl;
+cout<<"________________MENU PRINCIPAL________________"<<endl;
+cout<<"----------------------------------------------"<<endl;
+cout<<endl;
+//Mostrar el nombre del usuario
+cout<<" Bienvenido, "<<usuario<<endl;
+cout<<endl;
+//Mostrar las diferentes opciones al usuario
+cout<<" 1. Registrar empleados \n 2. Agregar empleados \n 3. Mostrar empleados \n 4. Cambiar numero celular de empleados \n 5. Despedir empleados \n 6. Mostrar empleados despedidos \n 7. Salir \n \n Ingrese la opcion deseada: ";
+//Solicitar una opcion
+cin>>Opc;
+//Creacion de un switch para evaluar cada opcion
+switch(Opc){
+    //Retornar un entero dependiendo de la opcion del usuario
+case 1:
+estado = 2;
+break;
+
+case 2:
+estado= 3;
+break;
+
+case 3:
+estado = 4;
+break;
+
+case 4:
+estado = 5;
+break;
+
+case 5:
+estado = 6;
+break;
+
+case 6:
+estado = 7;
+break;
+
+case 7:
+estado = 0;
+break;
+
+default:
+    estado = 1;
+break;
+}
+return estado; //Devolver ese valor
+}
+
+
+
+int RegistroEmpleados( int estado){
+//Declaración de variables auxiliares
+int tam,i;
+//Declarar la variables de tipo fstream para manejar el archivo
+fstream Archivo;
+//Abrir el archivo, de forma de escritura y binario
+Archivo.open("Empleados.dat",ios::out | ios::binary);
+//Si el archivo se abre correctamente
+if(Archivo.is_open()){
+    //Pedirle al usuario la cantidad de empleados
+    cout<<"Ingrese la cantidad de empleados a ingresar: ";
+    cin>>tam;
+    //Declarar una variables de tipo Empleado para almacenar datos
+    Empleado empAUX[100];
+    //Crear un bucle para asignar valores
+    for(i = 0; i<tam;i++){
+        cout<<"Ingrese el ID del empleado: ";
+        cin>>empAUX[i].codigo;
+        cout<<"Ingrese el nombre del empleado: ";
+        cin>>empAUX[i].nombre;
+        cout<<"Ingrese el apellido del empleado: ";
+        cin>>empAUX[i].apellidos;
+        cout<<"Ingrese el celular del empleado: ";
+        cin>>empAUX[i].celular;
+        //Escribir en el archivo los datos de cada empleado
+        Archivo.write((char*)&empAUX[i], sizeof(Empleado));
+        cout<<endl;
+    }
+    //Cerrar el archivo
+    Archivo.close();
+    system("CLS");
+    //Mostrarle al usuario que no han ocurrido errores
+    cout<<"Usuarios correctamente registrados"<<endl;
+}
+    //Si no se puede abrir el archivo, mostrarlo al usuario
+    else{
+        cout<<"No se pudo abrir el archivo";
+    }
+estado = 1; //Devolver el estado
+return estado; //Devolver al usuario al menu principal
+}
+
+
+int AgregarEmpleados (int estado){
+//Declaracion de variables auxiliares
+Empleado empleAux;
+int tam;
+//Declarar la variables de tipo fstream para manejar el archivo
+fstream Archivo;
+//Abrir el archivo, con el mismo nombre, para escritura, binario y sobreescribir
+Archivo.open("Empleados.dat", ios::out|ios::binary|ios::app);
+//Verificar que el archivo se abrio correctamente
+    if(Archivo.is_open()){
+        //Pedirle al usuario los datos del empleado a agregar
+        cout<<"Ingrese el ID del empleado: ";
+        cin>> empleAux.codigo;
+        cout<<"Ingrese el nombre del empleado: ";
+        cin>>empleAux.nombre;
+        cout<<"Ingrese el apellido del empleado: ";
+        cin>>empleAux.apellidos;
+        cout<<"Ingrese el celular del empleado: ";
+        cin>>empleAux.celular;
+        //Escribir dentro del archivo el empleado agregado
+        Archivo.write((char*)&empleAux, sizeof(Empleado));
+        //Cerrar el archivo
+        Archivo.close();
+        system("CLS");
+        //Mostrarle al usuario que han sido correctamente agregados.
+        cout<<"Usuario correctamente registrado"<<endl;
+    }
+    //Si no se pudo abrir, mostrarlo al usuario
+    else{
+        cout<<"No se pudo abrir el archivo";
+    }
+
+estado = 1; //Devolver el estado
+return estado; //Devolver al usuario al menu principal
+}
+
+
+int MostrarEmpleados (int estado){
+//Creacion de variable de tipo fstream y Empleado
+fstream Archivo;
+Empleado EmpAux;
+//Abrir el archivo de forma de lectura y binario
+Archivo.open("Empleados.dat", ios::in|ios::binary);
+    //Ver si el archivo fue abierto correctamente
+    if(Archivo.is_open()){
+        //Declarar variable auxiliar para contar bloques de informacion
+        int i = 0;
+        //Leer el archivo
+        Archivo.read((char*)&EmpAux, sizeof(Empleado));
+            //Leer todo el archivo hasta el final
+            while(!Archivo.eof()){
+                //Imprimir los contenidos en la pantalla
+                cout<<"Codigo: "<<EmpAux.codigo<<endl;
+                cout<<"Nombre: "<< EmpAux.nombre<<endl;
+                cout<<"Apellido: "<< EmpAux.apellidos<<endl;
+                cout<<"Celular: "<< EmpAux.celular<<endl;
+                cout<<endl;
+                //Pasar al siguiente bloque
+                Archivo.read((char*)&EmpAux, sizeof(Empleado));
+                i++;
+        }
+    //Cerrar el archivo
+    Archivo.close();
+    }
+estado = 1; //Devolver el estado
+return estado; //Devolver al usuario al menu principal
+}
+
+
+
+int CambiarCel (int estado){
+//Declaración de variables auxiliares
+int CodAUX, CelAUX, i=0;
+//Crear variable booleana para ver si se encontro el empleado
+bool Encont = false;
+//Crear variable de tipo Empleado
+Empleado EmpAux;
+//Pedirle al usuario el codigo del empleado de interes
+cout<<"Ingrese el id del empleado de interes: ";
+cin>>CodAUX;
+//Declarar variables tipo fstream y abrir un archivo de manera que se pueda escribir, leer y sea binario
+fstream Archivo("Empleados.dat", ios::in|ios::out|ios::binary);
+  //verificar si el archivo se abre correctamente
+    if(Archivo.is_open()){
+        //Leer todo el archivo
+         //Leer cada bloque de información
+            Archivo.read((char*)&EmpAux, sizeof(Empleado));
+        while(!Archivo.eof()){
+                //Si se encuentra el codigo
+                if(EmpAux.codigo == CodAUX){
+                    //Actualizar la variable Econt, a verdadero
+                    Encont = true;
+                        //Si se encontro modificar el celular
+                        if(Encont == true){
+                            //Pedirle al usuario el nuevo celular
+                            cout<<"Ingrese el nuevo celular: ";
+                            cin>>CelAUX;
+                            //Situar el puntero al inicio de ese bloque de información
+                            Archivo.seekp(Archivo.tellg() - sizeof(EmpAux), ios::beg);
+                            //Actualizar el valor del celular del empleado
+                            EmpAux.celular = CelAUX;
+                            //Volver a escribirlo en el archivo, en la misma posicion
+                            Archivo.write((char*)&EmpAux, sizeof(Empleado));
+                            //Cerrar el archivo
+                            Archivo.close();
+                            //Salir de la busqueda
+                            break;
+                        }
+                    }
+                     //Leer el siguiente bloque
+            Archivo.read((char*)&EmpAux, sizeof(Empleado));
+            i++;
+        }
+    }
+    //Si no se pudo abrir el archivo, mostrarlo
+    if(Encont == false){
+        cout<<"No se encontro el codigo!!!!"<<endl;
+    }
+estado = 1; //Devolver el estado
+return estado; //Devolver al usuario al menu principal
+}
+
+int DespedirEmpleado (int estado){
+//Crear variables auxiliares
+int CodAUX, i=0;
+bool Encont = false;
+//Crear un vector de tipo empleado
+vector <Empleado> V_aux;
+//Crear variables de tipo empleado
+Empleado EmpAux, Emp_Des;
+//Pedirle al usuario el codigo del empleado a eliminar
+cout<<"Ingrese el id del empleado a eliminar: ";
+cin>>CodAUX;
+//Abrir el archivo principal en forma de lectura y en binario
+fstream Archivo("Empleados.dat", ios::in|ios::binary);
+//Abrir un archivo auxiliar en forma de escritura y binario
+fstream ArchAux("Empleados_aux.dat", ios::out|ios::binary);
+//Ver si el archivo abrio correctamente
+if(Archivo.is_open()){
+    //Leer todo el archivo
+    //Leer el archivo desde la posición inicial del bloque
+    Archivo.read((char*)&EmpAux, sizeof(Empleado));
+    while(!Archivo.eof()){
+            //Si el codigo no es el mismo, guardar ese dato en el archivo auxiliar
+            if(EmpAux.codigo != CodAUX){
+                ArchAux.write((char*)&EmpAux, sizeof(Empleado));
+                }
+                //Si el codigo concuerda, actualizar la variable Encont
+                else{
+                    if(EmpAux.codigo == CodAUX){
+                     Encont = true;
+                    }
+                }
+                //Si Encont es verdadero, guardar el empleado en el vector
+                if(Encont == true){
+                    //Guardar los datos del despedido
+                    Emp_Des.codigo = EmpAux.codigo;
+                    strcpy(Emp_Des.nombre, EmpAux.nombre);
+                    strcpy(Emp_Des.apellidos, EmpAux.apellidos);
+                    Emp_Des.celular = EmpAux.celular;
+                    //Meter los datos del despedido en el vector
+                    V_aux.push_back(Emp_Des);
+                    //Crear una variables de tipo fstream para la carta de despedida
+                    fstream CartaD("Carta_Despedida_de " + std::string(Emp_Des.nombre) + ".txt", ios::out);
+                        if(CartaD.is_open()){
+                                //Llenar la carta de despida
+                            CartaD <<"Estimado "<<Emp_Des.nombre<<", con codigo: "<<Emp_Des.codigo<<endl;
+                            CartaD <<"Usted ha sido despedido por diferentes motivos, acerquese a la presidencia urgentemente"<<endl;
+                        }
+                            else{
+                                    //Mostrar que no se pudo hacer
+                                cout<<"No se pudo hacer la carta de despedida"<<endl;
+                            }
+                    CartaD.close();
+                }
+                //Actualizar los bloques/Moverse en el bloque
+                Archivo.read((char*)&EmpAux, sizeof(Empleado));
+                i++;
+            }
+        }
+    //Cerrar los dos archivos
+    ArchAux.close();
+    Archivo.close();
+    //Borrar el archivo principal
+    remove("Empleados.dat");
+    //Renombrar el archivo auxiliar como el principal
+    rename("Empleados_aux.dat", "Empleados.dat");
+    //Crear un archivo de los empleados despedidos
+fstream ArchDes("Empleados_Despedidos.txt", ios::out|ios::app);
+    if(ArchDes.is_open()){
+        for(i = 0; i<V_aux.size(); i++){
+            //Escribir los datos del empleado en el archivo
+            ArchDes<<"Codigo: "<<V_aux.at(i).codigo<<endl;
+            ArchDes<<"Nombre: "<<V_aux.at(i).nombre<<endl;
+            ArchDes<<"Apellido: "<<V_aux.at(i).apellidos<<endl;
+            ArchDes<<"Celular: "<<V_aux.at(i).celular<<endl;
+            ArchDes<<endl;
+        }
+    }
+//Cerrar el archivo
+ArchDes.close();
+estado = 1; //Devolver el estado
+return estado; //Devolver al usuario al menu principal
+}
+
+int MostrarDespedidos (int estado){
+    //Crear variables auxiliares
+    string palabra;
+    //Crear variables tipo fstream
+    fstream Archivo("Empleados_Despedidos.txt", ios::in);
+    //Ver si el archivo se abrio correctamente
+    if(Archivo.is_open()){
+        //Imprimir los empleados despedidos
+        cout<<"Los siguientes usuarios han sido despedidos!"<<endl;
+            while(getline(Archivo, palabra)){
+                //Imprimir cada empleado
+                cout<<palabra<<endl;
+            }
+        }
+    Archivo.close();
+    estado = 1; //Devolver el estado
+    return estado; //Devolver al usuario al menu principal
+}

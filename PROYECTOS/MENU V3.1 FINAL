@@ -279,8 +279,8 @@ int MostrarEmpleados (int estado){
 fstream Archivo;
 Empleado EmpAux;
 Empleado Ordenar[100];
-Empleado Aux[100];
-int tam, MenorInd;
+Empleado Aux;
+int tam;
 //Abrir el archivo de forma de lectura y binario
 Archivo.open("Empleados.dat", ios::in|ios::binary);
     //Ver si el archivo fue abierto correctamente
@@ -313,16 +313,17 @@ Archivo.open("Empleados.dat", ios::in|ios::binary);
     }
     for(int i = 0; i<tam; i++){
         for(int j = 0; j<tam; j++){
-            if(Ordenar[i].nombre[0] > Ordenar[j].nombre[0]){
-            MenorInd = j;
+            if(Ordenar[i].nombre[0] < Ordenar[j].nombre[0]){
+            Aux = Ordenar[i];
+            Ordenar[i] = Ordenar[j];
+            Ordenar[j] = Aux;
             }else{
-                if(Ordenar[i].nombre[0] == Ordenar[j].nombre[0] && Ordenar[i].nombre[1] > Ordenar[j].nombre[1] ){
-                    MenorInd = j;
+                if(Ordenar[i].nombre[0] == Ordenar[j].nombre[0] && Ordenar[i].nombre[1] < Ordenar[j].nombre[1] ){
+                    Aux = Ordenar[i];
+                    Ordenar[i] = Ordenar[j];
+                    Ordenar[j] = Aux;
                 }
             }
-            Aux[i] = Ordenar[i];
-            Ordenar[i] = Ordenar[MenorInd];
-            Ordenar[MenorInd] = Aux[i];
         }
     }
     for(int i = 0; i<tam; i++){
@@ -330,6 +331,7 @@ Archivo.open("Empleados.dat", ios::in|ios::binary);
         cout<<"Nombre: "<<Ordenar[i].nombre<<endl;
         cout<<"Apellido: "<<Ordenar[i].apellidos<<endl;
         cout<<"Celular: "<<Ordenar[i].celular<<endl;
+        cout<<endl;
 }
 estado = 1; //Devolver el estado
 return estado; //Devolver al usuario al menu principal

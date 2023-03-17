@@ -1,0 +1,116 @@
+/*
+QUIZ 1
+Santiago Jaramillo Soto
+22/02/23
+
+-Dado el arreglo de 5 elementos (10.20.30.445,55)
+Imprimir cada elemento usando un puntero
+-Dado dos arreglos de vocales array1 y array2, extraer la cantidad de vocales que se repiten entre los dos arreglos, usando punteros.
+
+-Crear una funcíón con memoria dinámica que llene una matriz cuya dimensión es pedida por concolsa. El llenado debe ser con valores aleatorios y la matriz debe ser matriz cuadrada.
+*/
+
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+using namespace std;
+//Definir funcion:
+void LLenarMatriz();
+int main() {
+  //Poner la semilla aleatoria
+  srand(time(NULL));
+//Parte 1
+  //Crear arreglo pedido 
+int Arreglo[5] = {10,20,30,45,55};
+  //Crear variables auxiliares y punteros
+  int i;
+int *Puntero = Arreglo;
+  //Imprimir los valores usando un ciclo y el puntero
+for(i = 0; i<5; i++){
+cout<<i<<" : "<< Puntero[i] <<endl;
+}
+  
+//Punto 2
+//Crear variables auxiliares
+  int k, j, l, contador=0, aux;
+//Declarar los arreglos
+string Array1[10], Array2[10];
+//Crear arreglo auxiliar con las vocales
+string Vocales[5]={"a" , "e", "i", "o", "u"};
+//Llenar los arreglos con valores aleatorios de vocales
+  for(k=0; k< 10;k++){
+    Array1[k] = Vocales[0+rand()%4];
+    
+    Array2[k] = Vocales[0+rand()%4];
+    
+    cout<<Array1[k]<<endl;
+    cout<<Array2[k]<<endl;
+  }
+//Declarar los punteros
+  string *Pointer1 = Array1;
+  string *Pointer2 = Array2;
+
+//Crear un ciclo para evaluar las vocales de un arreglo y comparar
+for(k=0;k<10;k++){
+  //Si esta en la primera vocal, se evalua con todas
+  if(k==0){
+   for(j=0;j<10;j++){
+     if(Pointer2[j].compare(Pointer1[k])==0){
+       contador++;
+     }
+  }
+    }
+    //Si esta en otra vocal, se evalua que no se repita la misma vocal
+  else{
+    for(l = k-1; l>=0; l--){
+      if(Pointer1[l].compare(Pointer1[k])==0)
+        aux++; //Si se repite se aumenta
+    }
+  }
+  if(aux == 0){ //Como no se repite debe ser igual a 0
+  for(j=0;j<10;j++){
+    if(Pointer2[j].compare(Pointer1[k])==0){
+      contador++; //cada vez que se repite se le suma al contador general
+  }
+}
+  }
+  //Actualizar valores de variables aux para volver a evaluar en el ciclo con otra vocal
+  aux = 0;
+}
+//Imprimir el resultado
+cout<<"Resultado: "<< contador<<endl;
+//Punto 3
+LLenarMatriz();
+  }
+
+void LLenarMatriz(){
+  
+//Declarar variables auxiliares
+int tamano, i,j;
+  int FIL, COL;
+cout<<"Ingrese el tamaño de la matriz (Recuerde que es cuadrada): ";
+cin>>tamano;
+  //Asignar el valor del tamano
+  FIL = tamano;
+COL = tamano;
+//Crear la matriz de tamano nxn
+int matriz[FIL][COL];
+  //Declarar el apuntador en 2D
+  int **Pointer = new int*[FIL];
+  for(i = 0; i<FIL; i++){
+    //Declarar los apuntadores en un fila de tamaño (tamano), crear las columnas del apuntador
+    *(Pointer + i) = new int[COL];
+    for(j=0;j<COL;j++){
+      //LLenar los valores de la matriz usando el apuntador
+      *(*(Pointer + i)+j) = 1+rand()%20;
+    }
+  }
+cout<<"Matriz obtenida: "<<endl;
+  //Imprimir la matriz obtenida usando ciclos.
+for(i = 0; i<tamano; i++){
+    for(j=0;j<tamano;j++){
+      cout<<*(*(Pointer + i)+j)<<" ";
+    }
+  cout<<endl;
+  }
+}

@@ -1,0 +1,171 @@
+/*
+Autor: Santiago Jaramillo Soto
+Fecha: 31/03/2023
+Tema: Clases y objetos
+*/
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+//Crear la clase circulo
+class circulo{
+    //Asignar los atributos
+    int radio;
+    //Definir lo publico
+    public:
+    //Crear el constructor
+      circulo ( int radio){
+      this->radio=radio;
+      }
+    double Areac(){
+        double a;
+        a= pow(radio, 2) * M_PI; 
+        return a;
+     }
+    double Perimetro(){
+       double p;
+        p= 2*M_PI*radio;
+        return p;
+     }
+    double Diametro (){
+        double d;
+        d=radio*2;
+        return d; 
+     }
+};
+//Crear clase triangulo
+class Triangulo{
+ //Asignar propiedades
+ int altura; 
+ int base;
+  //Declarar lo que verá el usuario
+    public:
+    //Declarar el constructor para triangulo
+    Triangulo(int a, int b){
+      this->altura = a;
+      this->base = b;
+    }
+    double PerimetroT(){
+     double Perim; 
+     double Hypo;
+      Hypo = sqrt(pow(altura, 2)+pow(base,2));
+    Perim = Hypo + base + altura;
+    return Perim; 
+    }
+    double Hipotenusa(){
+     double Hypo;
+     Hypo = sqrt(pow(altura, 2)+pow(base,2));
+     return Hypo;
+    }
+    int AlturaT(){
+      int alt; 
+      alt = altura;
+      return  alt; 
+    }
+};
+//Crear clase Persona
+class Persona{
+//Asignar sus propiedades
+protected: 
+string nombre; 
+//Definir lo que verá el usuario
+public: 
+//Crear constructor
+Persona(string nom) : nombre(nom){}
+void Presentarse(){
+  cout<<"HOLAA!!!, How are you?? \n Me llamo "<<nombre<<" y tu? \n";
+}
+};
+//Crear la clase Profesor
+class Profesor : public Persona{
+string profesion; 
+//Definir lo que verá el usuario
+  public: 
+//Crear el constructor
+    Profesor(string nom, string prof) : Persona(nom), profesion(prof){}
+  void Presentarse(){
+  cout<<"Buenos dias/buenas tardes \n Mi nombre es "<<nombre<<" , seré su profesor de "<<profesion<<"\n"; 
+  }
+};
+
+//Crear clase Estudiante
+class Estudiante : public Persona{
+int grado; 
+public: 
+Estudiante(string nom, int gra) : Persona(nom), grado(gra){}
+void Presentarse(){
+  cout<<"Mis queridos compañeros, \n Me llamo "<<nombre<<" esto en el grado "<<grado<<"\n";
+}
+bool CursarProg(){
+ bool puedeC;
+  if(this->grado >= 9)
+    return puedeC = true;
+  else return puedeC = false; 
+}
+}; 
+
+
+int main()
+{
+  //Primera clase
+    int radio;
+    cout<<"Por favor, ingrese el radio de su circulo: ";
+    cin>> radio;
+  //Crear el circulo con radio, radio
+    circulo circulo(radio);    
+  //Mostrar el area, perimetro y diametro usando los métodos de la clase
+    cout<<"Area: " <<circulo.Areac()<<endl;
+    cout<<"Perimetro: " <<circulo.Perimetro()<<endl;
+    cout<<"Diametro: " <<circulo.Diametro()<<endl;
+
+  //Segunda clase
+  int Tria_alt;
+  int Trai_bas;
+  cout<<"Ingrese la altura de su triangulo: ";
+  cin>>Tria_alt;
+  cout<<"Ingrese la base de su triangulo: ";
+  cin>>Trai_bas;
+  //Crear el triangulo con el constructor
+  Triangulo trian(Tria_alt, Trai_bas);
+  cout<<"Su triangulo \n Perimetro: "<< trian.PerimetroT()<<"\n Hipotenusa: "<<trian.Hipotenusa()<<"\n Altura: "<<trian.AlturaT()<<"\n";
+  //Tercera clase (Son tres, básicamente tercera parte)
+//Clase Persona
+string nom; 
+cout<<"Ingrese el nombre de la persona: ";
+cin>>nom; 
+//Crear el objeto/ Instanciar el objeto
+Persona Pers(nom);
+//Mostrar que funcionan los metodos.
+Pers.Presentarse();
+  //Segunda clase, Profesor
+  cout<<"Ingrese el nombre del profesor: ";
+  cin>>nom;
+  string prof; 
+  cout<<"Ingrese la profesion: ";
+  cin>>prof;
+  //Instanciar el objeto
+  Profesor Profe(nom, prof);
+  //Comprobar que funcionan los metodos
+  Profe.Presentarse();
+  Profe.Persona::Presentarse();
+    //Tercera clase, estudiante
+    cout<<"Ingrese el nombre del estudiante: ";
+    cin>>nom;
+    int grad; 
+    cout<<"Ingrese el grado: ";
+    cin>>grad;
+    //Instanciar el objeto
+    Estudiante Estudia(nom, grad);
+    //Comprobar los metodos
+    Estudia.Presentarse();
+    string Comprobar;
+    if(Estudia.CursarProg() == 1){
+      Comprobar = "Si, si puede"; 
+    }else{
+      Comprobar = "No, no puede";
+    }
+    cout<<"El estudiante puede cursar programación? \n"<<Comprobar<<"\n";
+    Estudia.Persona::Presentarse();
+  return 0;
+}

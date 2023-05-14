@@ -1,0 +1,28 @@
+/*
+AUTOR: SANTIAGO JARAMILLO SOTO
+TEMA: FECHAS Y HORAS EN JAVA
+*/
+
+import java.util.Calendar;
+import java.util.Formatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+class Main {
+  public static void main(String[] args) {
+    
+    //Formato fecha:
+    Formatter fecha = new Formatter();
+    Calendar cal = Calendar.getInstance();
+    fecha = new Formatter();
+    fecha.format("%tD", cal);
+
+    //Formato hora: 
+    Date hora = new Date();
+    String strFormatHora = "HH:mm:ss a";
+    SimpleDateFormat forma = new SimpleDateFormat(strFormatHora);
+    //Imprimir
+    System.out.println("Presentacion 1 de fecha y hora: ");
+    System.out.println(fecha + " " + forma.format(hora) + "\"n");
+  }
+}

@@ -1,0 +1,42 @@
+/*
+Autor: Santiago Jaramillo
+Tema: Herencia y sobrecarga de métodos
+*/
+
+//Crear la clase figura
+ class Figura{
+  //atributos
+   public double dim1;
+   public double dim2;
+   //Constructor
+   Figura(double a, double b){
+     dim1 = a;
+     dim2 = b;
+   }
+   //Metodo para sacar el area
+   Double area(){
+     System.out.println("Area dentro de la figura: ");
+     return(dim1*dim2);
+   }
+}
+//Herencia
+class Rectangulo extends Figura{
+  Rectangulo(double a, double b){
+     super(a,b);
+  }
+  //Sobrecarga
+  Double area(){
+    System.out.println("Area del rectangulo es: ");
+    return(dim1*dim2);
+  }
+}
+
+class Main {
+  public static void main(String[] args) {
+  //Crear las clases y ver el resultado
+    Figura f = new Figura(10,5);
+    Rectangulo r = new Rectangulo(14,67);
+    System.out.println("Area es: " + f.area());
+    System.out.println("Area es: " + r.area());
+  }
+}

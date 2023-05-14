@@ -1,0 +1,29 @@
+/*
+Autor: Santiago Jaramillo Soto
+Tema: Arreglos en Java
+*/
+
+import java.util.Arrays;
+class Main {
+  public static void imprimirArreglo(String mensaje, int arreglo[]){
+    System.out.println(mensaje + ": [longitud: " + arreglo.length + "]");
+  //Se imprime el arreglo
+    for(int i = 0; i<arreglo.length; i++){
+      System.out.print(" - " + arreglo[i]);
+    }
+    System.out.println();
+  }
+
+  
+  public static void main(String[] args) {
+    int ejemplo_arreglo[] = {2,-5,3,8,9,-2,-3,-10,5,7};
+    float mifloat = 1.0f;
+    double[][] matriz = new double[3][3];
+    Arrays.sort(ejemplo_arreglo);
+    //Imprimir el arreglo ordenado
+    imprimirArreglo("Arreglo ordenado", ejemplo_arreglo);
+    //Buscar el indice del valor -2
+    int indice = Arrays.binarySearch(ejemplo_arreglo, -2);
+    System.out.println("Se encontro el -2 en: " + indice);
+  }
+}
